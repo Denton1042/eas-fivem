@@ -1,4 +1,19 @@
-function stringsplit(inputstr, sep)
+local function isAdmin(source)
+    local allowed = false
+    for i,id in ipairs(Config.EAS.admins) do
+        for x,pid in ipairs(GetPlayerIdentifiers(source)) do
+            if string.lower(pid) == string.lower(id) then
+                allowed = true
+            end
+        end
+	end
+	if IsPlayerAceAllowed(source, "lance.eas") then
+		allowed = true
+	end
+    return allowed
+end
+
+local function stringsplit(inputstr, sep)
 	if sep == nil then
 		sep = "%s"
 	end
@@ -27,18 +42,3 @@ AddEventHandler('chatMessage', function(source, name, msg)
 		end
 	end
 end)
-
-local function isAdmin(source)
-    local allowed = false
-    for i,id in ipairs(Config.EAS.admins) do
-        for x,pid in ipairs(GetPlayerIdentifiers(source)) do
-            if string.lower(pid) == string.lower(id) then
-                allowed = true
-            end
-        end
-	end
-	if IsPlayerAceAllowed(source, "lance.eas") then
-		allowed = true
-	end
-    return allowed
-end
